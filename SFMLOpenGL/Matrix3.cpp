@@ -152,9 +152,9 @@ Matrix3 Matrix3::Rotation(int t_angle)
 
 Matrix3 Matrix3::Translate(double dx, double dy)
 {
-	return Matrix3(1, 0, 0,
-		0, 1, 0,
-		dx, dy, 1);
+	return Matrix3(1, 0, dx,
+		0, 1, dy,
+		0, 0, 1);
 }
 
 Matrix3 Matrix3::Scale(double dx, double dy)

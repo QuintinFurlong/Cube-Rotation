@@ -5,12 +5,12 @@ bool updatable = false;
 Game::Game() : window(VideoMode(800, 600), "OpenGL Cube")
 {
 	index = glGenLists(1);
-	corners[0] = Vector3Class(-1.0f,1.0f,-15.0f);
-	corners[1] = Vector3Class(1.0f, 1.0f, -15.0f);
+	corners[0] = Vector3Class(-1.0f,1.0f,-7.0f);
+	corners[1] = Vector3Class(1.0f, 1.0f, -7.0f);
 	corners[2] = Vector3Class(-1.0f, 1.0f, -5.0f);
 	corners[3] = Vector3Class(1.0f, 1.0f, -5.0f);
-	corners[4] = Vector3Class(-1.0f, -1.0f, -15.0f);
-	corners[5] = Vector3Class(1.0f, -1.0f, -15.0f);
+	corners[4] = Vector3Class(-1.0f, -1.0f, -7.0f);
+	corners[5] = Vector3Class(1.0f, -1.0f, -7.0f);
 	corners[6] = Vector3Class(-1.0f, -1.0f, -5.0f);
 	corners[7] = Vector3Class(1.0f, -1.0f, -5.0f);
 }
@@ -124,29 +124,6 @@ void Game::initialize()
 
 void Game::update()
 {
-	elapsed = clock.getElapsedTime();
-
-	if (elapsed.asSeconds() >= 1.0f)
-	{
-		clock.restart();
-
-		if (!updatable)
-		{
-			updatable = true;
-		}
-		else
-			updatable = false;
-	}
-
-	if (updatable)
-	{
-		rotationAngle += 0.005f;
-
-		if (rotationAngle > 360.0f)
-		{
-			rotationAngle -= 360.0f;
-		}
-	}
 	
 	Matrix3 m1;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
@@ -157,11 +134,26 @@ void Game::update()
 		}
 
 	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))
+	{
+		for (int inde = 0; inde < 8; inde++)
+		{
+			corners[inde] = m1.Rotation(-1) * corners[inde];
+		}
+
+	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::T))
 	{
 		for (int inde = 0; inde < 8; inde++)
 		{
-			corners[inde] = m1.Translate(1,1) * corners[inde];
+			corners[inde] = m1.Translate(.01, .01) * corners[inde];
+		}
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::G))
+	{
+		for (int inde = 0; inde < 8; inde++)
+		{
+			corners[inde] = m1.Translate(-.01, -.01) * corners[inde];
 		}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
@@ -169,6 +161,13 @@ void Game::update()
 		for (int inde = 0; inde < 8; inde++)
 		{
 			corners[inde] = m1.Scale(99,99) * corners[inde];
+		}
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
+	{
+		for (int inde = 0; inde < 8; inde++)
+		{
+			corners[inde] = m1.Scale(101, 101) * corners[inde];
 		}
 	}
 
